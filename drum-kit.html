@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="drum-kit.css">
-    <title>Drum kit</title>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="drum-kit.css">
 </head>
-<div class="keys">
+<body>
+
+
+  <div class="keys">
     <div data-key="65" class="key">
       <kbd>A</kbd>
       <span class="sound">clap</span>
@@ -45,13 +46,38 @@
       <span class="sound">tink</span>
     </div>
   </div>
-  <audio src=""></audio>
-  <audio src=""></audio>
-  <audio src=""></audio>
-  <audio src=""></audio>
-  <audio src=""></audio>
-  <audio src=""></audio>
-  <audio src=""></audio>
-  <audio src=""></audio>
+
+  <audio data-key="65" src="Drum_kit/sounds/clap.wav"></audio>
+  <audio data-key="83" src="Drum_kit/sounds/hihat.wav"></audio>
+  <audio data-key="68" src="Drum_kit/sounds/kick.wav"></audio>
+  <audio data-key="70" src="Drum_kit/sounds/openhat.wav"></audio>
+  <audio data-key="71" src="Drum_kit/sounds/boom.wav"></audio>
+  <audio data-key="72" src="Drum_kit/sounds/ride.wav"></audio>
+  <audio data-key="74" src="Drum_kit/sounds/snare.wav"></audio>
+  <audio data-key="75" src="Drum_kit/sounds/tom.wav"></audio>
+  <audio data-key="76" src="Drum_kit/sounds/tink.wav"></audio>
+
+<script>
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('playing');
+  }
+
+  function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    if (!audio) return;
+
+    key.classList.add('playing');
+    audio.currentTime = 0;
+    audio.play();
+  }
+
+  const keys = Array.from(document.querySelectorAll('.key'));
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound);
+</script>
+
+
 </body>
 </html>
